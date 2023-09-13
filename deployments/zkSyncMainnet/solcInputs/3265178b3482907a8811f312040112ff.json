@@ -1,0 +1,32 @@
+{
+  "language": "Solidity",
+  "sources": {
+    "contracts/Disperse.sol": {
+      "content": "pragma solidity ^0.8.18;\n\nerror ETHTransferFailed();\n\ninterface IERC20 {\n    function transfer(address to, uint256 value) external returns (bool);\n\n    function transferFrom(\n        address from,\n        address to,\n        uint256 value\n    ) external returns (bool);\n}\n\ncontract Disperse {\n    function disperseEther(\n        address[] memory recipients,\n        uint256[] memory values\n    ) external payable {\n        for (uint256 i = 0; i < recipients.length; i++) {\n            (bool success, ) = payable(recipients[i]).call{value: values[i]}(\n                \"\"\n            );\n            if (!success) {\n                revert ETHTransferFailed();\n            }\n        }\n        uint256 balance = address(this).balance;\n        if (balance > 0) {\n            (bool success, ) = payable(msg.sender).call{value: balance}(\"\");\n            if (!success) {\n                revert ETHTransferFailed();\n            }\n        }\n    }\n\n    function disperseToken(\n        IERC20 token,\n        address[] memory recipients,\n        uint256[] memory values\n    ) external {\n        uint256 total = 0;\n        for (uint256 i = 0; i < recipients.length; i++) total += values[i];\n        require(token.transferFrom(msg.sender, address(this), total));\n        for (uint256 i = 0; i < recipients.length; i++) {\n            require(token.transfer(recipients[i], values[i]));\n        }\n    }\n\n    function disperseTokenSimple(\n        IERC20 token,\n        address[] memory recipients,\n        uint256[] memory values\n    ) external {\n        for (uint256 i = 0; i < recipients.length; i++)\n            require(token.transferFrom(msg.sender, recipients[i], values[i]));\n    }\n}\n"
+    }
+  },
+  "settings": {
+    "optimizer": {
+      "enabled": true,
+      "mode": "3"
+    },
+    "outputSelection": {
+      "*": {
+        "*": [
+          "abi",
+          "evm.methodIdentifiers",
+          "metadata",
+          "devdoc",
+          "userdoc",
+          "storageLayout"
+        ],
+        "": [
+          "ast"
+        ]
+      }
+    },
+    "metadata": {
+      "useLiteralContent": true
+    }
+  }
+}

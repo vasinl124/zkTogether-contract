@@ -1,0 +1,32 @@
+{
+  "language": "Solidity",
+  "sources": {
+    "contracts/Greeter.sol": {
+      "content": "//SPDX-License-Identifier: Unlicense\npragma solidity ^0.8.0;\n\ncontract Greeter {\n    string private greeting;\n\n    constructor(string memory _greeting) {\n        greeting = _greeting;\n    }\n\n    function greet() public view returns (string memory) {\n        return greeting;\n    }\n\n    function setGreeting(string memory _greeting) public {\n        greeting = _greeting;\n    }\n}\n"
+    }
+  },
+  "settings": {
+    "optimizer": {
+      "enabled": true,
+      "mode": "3"
+    },
+    "outputSelection": {
+      "*": {
+        "*": [
+          "abi",
+          "evm.methodIdentifiers",
+          "metadata",
+          "devdoc",
+          "userdoc",
+          "storageLayout"
+        ],
+        "": [
+          "ast"
+        ]
+      }
+    },
+    "metadata": {
+      "useLiteralContent": true
+    }
+  }
+}

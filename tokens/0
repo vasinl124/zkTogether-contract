@@ -1,0 +1,11 @@
+{
+  "image": "https://z.whaletogether.com/zkTogether.GIF",
+  "name": "zkTogether",
+  "description": "zkTogether is an affordable Open Edition NFT brought to you by the WhaleTogether team to increase your chances at the highly anticipated zkSync airdrop.",
+  "attributes": [
+    {
+      "trait_type": "Type",
+      "value": "zkTogether"
+    }
+  ]
+}
